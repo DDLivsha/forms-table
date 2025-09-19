@@ -1,0 +1,26 @@
+[
+   {
+      "id": "form-1",
+      "title": "Application for Internship",
+      "description": "Form for internship applications in the IT department.",
+      "fieldsCount": 12,
+      "status": "active",
+      "updatedAt": "2025-08-15T10:00:00Z"
+   },
+   {
+      "id": "form-2",
+      "title": "Feedback on New Product",
+      "description": "A short survey to collect user feedback on our latest product.",
+      "fieldsCount": 5,
+      "status": "draft",
+      "updatedAt": "2025-08-14T15:30:00Z"
+   },
+   {
+      "id": "form-3",
+      "title": "Conference Registration",
+      "description": null,
+      "fieldsCount": 8,
+      "status": "archived",
+      "updatedAt": "2025-08-10T09:00:00Z"
+   }
+]
