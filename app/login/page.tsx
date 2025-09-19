@@ -5,13 +5,16 @@ import { loginSchema, LoginSchemaType } from '@/lib/schemas';
 import Input from '@/components/Input';
 import Select from '@/components/Select';
 import Button from '@/components/Button';
+import { loginAction } from '@/lib/actions';
+import { useAuthStore } from '@/lib/store';
 
 export default function LoginPage() {
+   const { setRole } = useAuthStore();
    const {
       control,
       register,
       handleSubmit,
-      formState: { errors },
+      formState: { errors, isSubmitting },
    } = useForm<LoginSchemaType>({
       resolver: zodResolver(loginSchema),
       defaultValues: {
@@ -20,9 +23,9 @@ export default function LoginPage() {
       },
    });
 
-   const onSubmit: SubmitHandler<LoginSchemaType> = (data) => {
-      console.log('Form data:', data);
-      // Тут буде логіка збереження кукі
+   const onSubmit: SubmitHandler<LoginSchemaType> = async (data) => {
+      setRole(data.role);
+      await loginAction(data);
    };
 
    return (
@@ -60,7 +63,7 @@ export default function LoginPage() {
                   type='submit'
                   className='w-full'
                >
-                  Login →
+                  {isSubmitting ? 'Logging in...' : 'Login →'}
                </Button>
             </form>
          </div>
