@@ -12,6 +12,7 @@ interface SelectProps {
    disabled?: boolean;
    className?: string;
    placeholder?: string;
+   label?: string;
 }
 
 const Select: FC<SelectProps> = ({
@@ -21,6 +22,7 @@ const Select: FC<SelectProps> = ({
    error,
    errorText,
    maxWidth,
+   label,
    disabled = false,
    className = '',
    placeholder = 'Select an option',
@@ -60,6 +62,7 @@ const Select: FC<SelectProps> = ({
          className={`relative w-full ${className}`}
          style={maxWidth ? { maxWidth: `${maxWidth}px` } : {}}
       >
+         <label className='mb-1 block text-[13px] font-normal cursor-pointer'>{label}</label>
          <div
             className={`flex items-center justify-between rounded-md border px-3.5 py-1.5 bg-white text-[16px] leading-[160%] cursor-pointer ${
                disabled ? 'bg-gray-100 cursor-not-allowed text-gray-400' : 'hover:border-indigo-600'

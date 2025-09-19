@@ -27,7 +27,7 @@ const Input: FC<Props> = forwardRef(({ className = '', label, id, error, ...prop
             id={inputId}
             {...props}
             className={`block w-full rounded-md border bg-white px-3.5 py-1.5 text-[16px] font-normal leading-[160%]
-            focus:outline-1 focus:outline-indigo-600
+            hover:border-indigo-600 focus:border-indigo-600 outline-none
             ${error ? 'border-red-500' : 'border-gray-200'}`}
          />
 
