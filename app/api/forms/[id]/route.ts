@@ -4,7 +4,7 @@ import path from 'path';
 
 const formsFilePath = path.join(process.cwd(), 'data/forms.json');
 
-export async function GET(request: NextRequest, ctx: RouteContext<'/api/forms/[id]'>) {
+export async function GET(request: NextRequest, ctx: any) {
    const { id } = await ctx.params;
    try {
       const fileContent = await fs.readFile(formsFilePath, 'utf-8');
