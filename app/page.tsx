@@ -35,14 +35,14 @@ export default function HomePage() {
    return (
       <main className='flex min-h-screen flex-col items-center justify-center p-10 bg-gray-50'>
          <div className='relative w-full max-w-2xl text-center'>
-            <div className='relative w-full md:h-80 h-50 mb-4 sm:mb-6'>
+            <div className='w-full h-100 mb-4 sm:mb-6'>
                <Image
                   src='/hero-image.jpg'
                   alt='Forms Dashboard Hero'
-                  fill
-                  sizes='100%'
-                  style={{ objectFit: 'contain' }}
                   priority
+                  width={620}
+                  height={320}
+                  className='w-full h-full object-cover'
                />
             </div>
 

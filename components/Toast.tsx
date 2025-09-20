@@ -11,7 +11,7 @@ export default function Toast() {
          
          const timeout = setTimeout(() => {
             hideNotification();
-         }, 3000);
+         }, 2000);
 
          return () => clearTimeout(timeout);
       }

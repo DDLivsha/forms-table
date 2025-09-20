@@ -41,13 +41,8 @@ export default function NewFormPage() {
 
    return (
       <main className='flex min-h-screen items-center justify-center bg-gray-50 p-4'>
-         <Button
-            className='absolute top-4 left-4'
-            href='/forms'
-         >
-            Back to dashboard
-         </Button>
          <div className='w-full max-w-md rounded-lg bg-white p-8 shadow-md'>
+            <Button className='mb-2' href='/forms'>Back</Button>
             <h1 className='mb-6 text-center text-3xl font-bold'>Create New Form</h1>
             <form
                onSubmit={handleSubmit(onSubmit)}
