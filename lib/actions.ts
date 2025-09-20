@@ -31,7 +31,7 @@ export async function createFormAction(formData: FormSchemaType) {
          return { errors: validatedData.error.flatten().fieldErrors };
       }
 
-      const response = await fetch('http://localhost:3000/api/forms', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/forms`, {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export async function createFormAction(formData: FormSchemaType) {
 
 export async function deleteFormAction(id: string) {
    try {
-      const response = await fetch(`http://localhost:3000/api/forms/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/forms/${id}`, {
          method: 'DELETE',
       });
 
@@ -76,7 +76,7 @@ export async function updateFormAction(formData: FormSchemaType) {
          return { errors: validatedData.error.flatten().fieldErrors };
       }
 
-      const response = await fetch(`http://localhost:3000/api/forms/${formData.id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/forms/${formData.id}`, {
          method: 'PUT',
          headers: {
             'Content-Type': 'application/json',

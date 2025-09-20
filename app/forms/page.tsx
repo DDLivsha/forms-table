@@ -3,7 +3,7 @@ import FormsTable from './FormsTable';
 import HeaderButtons from './HeaderButtons';
 
 async function getForms() {
-   const res = await fetch('http://localhost:3000/api/forms');
+   const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/forms`);
    if (!res.ok) {
       throw new Error('Failed to fetch forms data');
    }

@@ -3,7 +3,7 @@ import EditForm from './EditForm';
 import { IForm } from '@/interfaces/form';
 
 async function getForm(id: string): Promise<IForm> {
-   const res = await fetch(`http://localhost:3000/api/forms/${id}`);
+   const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/forms/${id}`);
 
    if (!res.ok) {
       throw new Error('Failed to fetch form data');
@@ -12,8 +12,8 @@ async function getForm(id: string): Promise<IForm> {
    return res.json();
 }
 
-export default async function EditFormPage({ params }: { params: { id: string } }) {
-   const { id } = params;
+export default async function EditFormPage({ params }: { params: Promise<{ id: string }> }) {
+   const { id } = await params;
    const form = await getForm(id);
    const cookiesStore = await cookies();
 
