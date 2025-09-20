@@ -14,7 +14,7 @@ export const metadata = {
       siteName: 'Forms Dashboard',
       // images: [
       //    {
-      //       url: 'https://your-vercel-deploy-url.vercel.app/og-image.png', // Додайте власне OG-зображення
+      //       url: 'https://your-vercel-deploy-url.vercel.app/og-image.png',
       //       width: 1200,
       //       height: 630,
       //       alt: 'Forms Dashboard Hero Image',
@@ -27,7 +27,7 @@ export const metadata = {
       card: 'summary_large_image',
       title: 'Forms Dashboard',
       description: 'A convenient tool for creating and controlling forms.',
-      // images: ['https://your-vercel-deploy-url.vercel.app/twitter-image.png'], // Додайте власне Twitter-зображення
+      // images: ['https://your-vercel-deploy-url.vercel.app/twitter-image.png'],
    },
 };
 
