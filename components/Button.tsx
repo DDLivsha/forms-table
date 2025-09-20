@@ -7,6 +7,7 @@ interface Props {
    href?: string; 
    className?: string;
    type?: 'button' | 'submit' | 'reset' | undefined;
+   onClick?: () => void;
 }
 
 const Button: React.FC<Props> = ({ children, href, className, ...props }) => {

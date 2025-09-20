@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-   title: 'Forms Dashboard – Управління формами',
+   title: 'Forms Dashboard',
    description: 'A convenient tool for creating and controlling forms.',
 };
 

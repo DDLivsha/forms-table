@@ -92,6 +92,17 @@ const Select: FC<SelectProps> = ({
                   isDropUp ? 'bottom-full mb-1' : 'top-full'
                }`}
             >
+               <div
+                  onClick={() => {
+                     onChange('');
+                     setIsOpen(false);
+                  }}
+                  className={`px-3.5 py-2 cursor-pointer hover:bg-indigo-50 ${
+                     value === '' ? 'bg-indigo-100 text-indigo-600' : ''
+                  }`}
+               >
+                  {placeholder}
+               </div>
                {options.length > 0 ? (
                   options.map((item) => (
                      <div
