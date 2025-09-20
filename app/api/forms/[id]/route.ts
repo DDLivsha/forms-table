@@ -1,33 +1,68 @@
 import { NextResponse, NextRequest } from 'next/server';
-import { getFormById, updateForm, deleteForm } from '@/lib/api';
+import fs from 'fs/promises';
+import path from 'path';
 
-export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-   const { id } = await params;
-   const result = await getFormById(id);
-   if (result.error) {
-      return NextResponse.json({ error: result.error }, { status: result.status });
+const formsFilePath = path.join(process.cwd(), 'data/forms.json');
+
+export async function GET(request: NextRequest, ctx: RouteContext<'/api/forms/[id]'>) {
+   const { id } = await ctx.params;
+   try {
+      const fileContent = await fs.readFile(formsFilePath, 'utf-8');
+      const forms = JSON.parse(fileContent);
+      const form = forms.find((f: any) => f.id === id);
+
+      if (!form) {
+         return NextResponse.json({ error: 'Form not found' }, { status: 404 });
+      }
+
+      return NextResponse.json(form);
+   } catch (error) {
+      console.error('Failed to get form:', error);
+      return NextResponse.json({ error: 'Failed to load form data.' }, { status: 500 });
    }
-   return NextResponse.json(result.data, { status: result.status });
 }
 
-export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-   const { id } = await params;
-   const updatedForm = await request.json();
-   const result = await updateForm(id, updatedForm);
-   if (result.error) {
-      return NextResponse.json({ error: result.error }, { status: result.status });
+export async function PUT(request: NextRequest, ctx: RouteContext<'/api/forms/[id]'>) {
+   const { id } = await ctx.params;
+   try {
+      const updatedForm = await request.json();
+      const fileContent = await fs.readFile(formsFilePath, 'utf-8');
+      const forms = JSON.parse(fileContent);
+
+      const formIndex = forms.findIndex((f: any) => f.id === id);
+      if (formIndex === -1) {
+         return NextResponse.json({ error: 'Form not found' }, { status: 404 });
+      }
+
+      const newForms = forms.map((form: any) =>
+         form.id === id ? { ...form, ...updatedForm, updatedAt: new Date().toISOString() } : form
+      );
+
+      await fs.writeFile(formsFilePath, JSON.stringify(newForms, null, 2));
+      return NextResponse.json({ message: 'Form updated successfully' }, { status: 200 });
+   } catch (error) {
+      console.error('Failed to update form:', error);
+      return NextResponse.json({ error: 'Failed to update form.' }, { status: 500 });
    }
-   return NextResponse.json({ message: result.message }, { status: result.status });
 }
 
-export async function DELETE(
-   request: NextRequest,
-   { params }: { params: Promise<{ id: string }> }
-) {
-   const { id } = await params;
-   const result = await deleteForm(id);
-   if (result.error) {
-      return NextResponse.json({ error: result.error }, { status: result.status });
+export async function DELETE(request: NextRequest, ctx: RouteContext<'/api/forms/[id]'>) {
+   const { id } = await ctx.params;
+   try {
+      const fileContent = await fs.readFile(formsFilePath, 'utf-8');
+      const forms = JSON.parse(fileContent);
+
+      const initialFormsCount = forms.length;
+      const filteredForms = forms.filter((f: any) => f.id !== id);
+
+      if (initialFormsCount === filteredForms.length) {
+         return NextResponse.json({ error: 'Form not found' }, { status: 404 });
+      }
+
+      await fs.writeFile(formsFilePath, JSON.stringify(filteredForms, null, 2));
+      return NextResponse.json({ message: 'Form deleted successfully' }, { status: 200 });
+   } catch (error) {
+      console.error('Failed to delete form:', error);
+      return NextResponse.json({ error: 'Failed to delete form.' }, { status: 500 });
    }
-   return NextResponse.json({ message: result.message }, { status: result.status });
 }
