@@ -7,6 +7,7 @@ import Input from '@/components/Input';
 import Select from '@/components/Select';
 import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
+import { useNotificationStore } from '@/lib/store/notificationStore';
 
 interface EditFormProps {
    initialForm: FormSchemaType;
@@ -14,6 +15,8 @@ interface EditFormProps {
 
 export default function EditFormPage({ initialForm }: EditFormProps) {
    const router = useRouter();
+   const { showNotification } = useNotificationStore();
+
    const {
       control,
       register,
@@ -38,9 +41,9 @@ export default function EditFormPage({ initialForm }: EditFormProps) {
             });
          });
       } else if (res?.error) {
-         alert(`Error: ${res.error}`);
+         showNotification(res.error, 'error');
       } else if (res?.message) {
-         alert(res.message);
+         showNotification(res.message, 'success');
          router.push('/forms');
       }
    };

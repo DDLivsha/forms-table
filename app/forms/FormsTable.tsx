@@ -5,6 +5,7 @@ import Select from '@/components/Select';
 import { deleteFormAction } from '@/lib/actions';
 import { useRouter } from 'next/navigation';
 import { IForm } from '@/interfaces/form';
+import { useNotificationStore } from '@/lib/store/notificationStore';
 
 interface FormsTableProps {
    initialForms: IForm[];
@@ -13,6 +14,8 @@ interface FormsTableProps {
 
 export default function FormsTable({ initialForms, userRole }: FormsTableProps) {
    const router = useRouter();
+   const { showNotification } = useNotificationStore();
+
    const [statusFilter, setStatusFilter] = useState('');
    const [sortDirection, setSortDirection] = useState<'ascending' | 'descending' | 'none'>(
       'descending'
@@ -52,9 +55,9 @@ export default function FormsTable({ initialForms, userRole }: FormsTableProps) 
          const result = await deleteFormAction(id);
 
          if (result?.error) {
-            alert(`Deletion failed: ${result.error}`);
+            showNotification(result.error, 'error');
          } else if (result?.message) {
-            alert(result.message);
+            showNotification(result.message, 'success');
             router.refresh();
          }
       });
@@ -67,6 +70,7 @@ export default function FormsTable({ initialForms, userRole }: FormsTableProps) 
                options={['active', 'draft', 'archived']}
                value={statusFilter}
                onChange={setStatusFilter}
+               placeholder='Filter by status'
             />
          </div>
 
@@ -88,7 +92,7 @@ export default function FormsTable({ initialForms, userRole }: FormsTableProps) 
                      </th>
                      <th
                         scope='col'
-                        className='px-6 py-3 cursor-pointer'
+                        className='px-6 py-3 cursor-pointer select-none'
                         onClick={handleSort}
                      >
                         Updated At

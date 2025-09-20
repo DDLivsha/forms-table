@@ -7,9 +7,12 @@ import Input from '@/components/Input';
 import Select from '@/components/Select';
 import Button from '@/components/Button';
 import { useRouter } from 'next/navigation';
+import { useNotificationStore } from '@/lib/store/notificationStore';
 
 export default function NewFormPage() {
    const router = useRouter();
+   const { showNotification } = useNotificationStore();
+
    const {
       control,
       register,
@@ -29,16 +32,21 @@ export default function NewFormPage() {
       const res = await createFormAction(data);
 
       if (res?.error) {
-         alert(`Error: ${res.error}`);
+         showNotification(res.error, 'error');
       } else if (res?.message) {
-         alert(res.message);
+         showNotification(res.message, 'success');
          router.push('/forms');
       }
    };
 
    return (
       <main className='flex min-h-screen items-center justify-center bg-gray-50 p-4'>
-         <Button className='absolute top-4 left-4' href='/forms'>Back to dashboard</Button>
+         <Button
+            className='absolute top-4 left-4'
+            href='/forms'
+         >
+            Back to dashboard
+         </Button>
          <div className='w-full max-w-md rounded-lg bg-white p-8 shadow-md'>
             <h1 className='mb-6 text-center text-3xl font-bold'>Create New Form</h1>
             <form

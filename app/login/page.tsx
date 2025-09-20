@@ -6,7 +6,7 @@ import Input from '@/components/Input';
 import Select from '@/components/Select';
 import Button from '@/components/Button';
 import { loginAction } from '@/lib/actions';
-import { useAuthStore } from '@/lib/store';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export default function LoginPage() {
    const { setRole } = useAuthStore();
