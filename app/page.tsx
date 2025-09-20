@@ -10,11 +10,11 @@ export const metadata = {
    openGraph: {
       title: 'Forms Dashboard',
       description: 'A convenient tool for creating and controlling forms.',
-      // url: 'https://your-vercel-deploy-url.vercel.app',
+      url: 'https://forms-table.vercel.app',
       siteName: 'Forms Dashboard',
       // images: [
       //    {
-      //       url: 'https://your-vercel-deploy-url.vercel.app/og-image.png',
+      //       url: 'https://forms-table.vercel.app/og-image.png',
       //       width: 1200,
       //       height: 630,
       //       alt: 'Forms Dashboard Hero Image',
@@ -27,7 +27,7 @@ export const metadata = {
       card: 'summary_large_image',
       title: 'Forms Dashboard',
       description: 'A convenient tool for creating and controlling forms.',
-      // images: ['https://your-vercel-deploy-url.vercel.app/twitter-image.png'],
+      // images: ['https://forms-table.vercel.app/og-image.png'],
    },
 };
 

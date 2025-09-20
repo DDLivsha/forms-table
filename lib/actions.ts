@@ -31,7 +31,7 @@ export async function createFormAction(formData: FormSchemaType) {
          return { errors: validatedData.error.flatten().fieldErrors };
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}api/forms`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/forms`, {
          method: 'POST',
          headers: {
             'Content-Type': 'application/json',
