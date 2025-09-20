@@ -2,16 +2,10 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 
-// 1. Визначаємо інтерфейс для контексту маршруту
-interface RouteContext {
-   params: {
-      id: string;
-   };
-}
-
 const formsFilePath = path.join(process.cwd(), 'data/forms.json');
 
-export async function GET(request: Request, context: RouteContext) {
+// Використовуємо 'any' як тимчасове рішення
+export async function GET(request: Request, context: any) {
    const { id } = context.params;
    try {
       const fileContent = await fs.readFile(formsFilePath, 'utf-8');
@@ -29,7 +23,8 @@ export async function GET(request: Request, context: RouteContext) {
    }
 }
 
-export async function PUT(request: Request, context: RouteContext) {
+// Використовуємо 'any' для інших методів
+export async function PUT(request: Request, context: any) {
    const { id } = context.params;
    try {
       const updatedForm = await request.json();
@@ -55,7 +50,8 @@ export async function PUT(request: Request, context: RouteContext) {
    }
 }
 
-export async function DELETE(request: Request, context: RouteContext) {
+// Використовуємо 'any' для інших методів
+export async function DELETE(request: Request, context: any) {
    const { id } = context.params;
    try {
       const fileContent = await fs.readFile(formsFilePath, 'utf-8');
