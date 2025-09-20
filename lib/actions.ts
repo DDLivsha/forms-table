@@ -3,6 +3,8 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { FormSchemaType, formSchema } from './schemas';
+import { revalidatePath } from 'next/cache';
+import { createForm, updateForm, deleteForm } from './api';
 
 export async function loginAction(formData: { email: string; role: 'Individual' | 'Admin' }) {
    const cookieStore = await cookies();
@@ -27,23 +29,19 @@ export async function signOutAction() {
 export async function createFormAction(formData: FormSchemaType) {
    try {
       const validatedData = formSchema.safeParse(formData);
+
       if (!validatedData.success) {
          return { errors: validatedData.error.flatten().fieldErrors };
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/forms`, {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json',
-         },
-         body: JSON.stringify(validatedData.data),
-      });
+      const result = await createForm(validatedData.data);
 
-      if (!response.ok) {
-         throw new Error('Failed to create form.');
+      if (result.error) {
+         throw new Error(result.error);
       }
 
-      return { message: 'Form created successfully!' };
+      revalidatePath('/forms');
+      return { message: result.message };
    } catch (error) {
       console.error('Error creating form:', error);
       return { error: 'An unexpected error occurred.' };
@@ -52,16 +50,14 @@ export async function createFormAction(formData: FormSchemaType) {
 
 export async function deleteFormAction(id: string) {
    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/forms/${id}`, {
-         method: 'DELETE',
-      });
+      const result = await deleteForm(id);
 
-      if (!response.ok) {
-         const errorData = await response.json();
-         return { error: errorData.error || 'Failed to delete form.' };
+      if (result.error) {
+         throw new Error(result.error);
       }
 
-      return { message: 'Form deleted successfully!' };
+      revalidatePath('/forms');
+      return { message: result.message };
    } catch (error) {
       console.error('Error deleting form:', error);
       return { error: 'An unexpected error occurred.' };
@@ -76,19 +72,18 @@ export async function updateFormAction(formData: FormSchemaType) {
          return { errors: validatedData.error.flatten().fieldErrors };
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/forms/${formData.id}`, {
-         method: 'PUT',
-         headers: {
-            'Content-Type': 'application/json',
-         },
-         body: JSON.stringify(validatedData.data),
-      });
-
-      if (!response.ok) {
-         throw new Error('Failed to update form.');
+      if (!formData.id) {
+         return { error: 'Invalid form data.' };
       }
 
-      return { message: 'Form updated successfully!' };
+      const result = await updateForm(formData.id, validatedData.data);
+
+      if (result.error) {
+         throw new Error(result.error);
+      }
+
+      revalidatePath('/forms');
+      return { message: result.message };
    } catch (error) {
       console.error('Error updating form:', error);
       return { error: 'An unexpected error occurred.' };
