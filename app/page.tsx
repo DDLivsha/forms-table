@@ -43,6 +43,7 @@ export default function HomePage() {
                   width={620}
                   height={320}
                   className='w-full h-full object-cover'
+                  placeholder='blur'
                />
             </div>
 
