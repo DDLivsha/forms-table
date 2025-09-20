@@ -19,7 +19,7 @@ export default function loading() {
    return (
       <div className='container mx-auto p-4'>
          <div className='flex items-center gap-4 justify-between'>
-            <h1 className='text-3xl font-bold mb-6'>Forms Dashboard</h1>
+            <h1 className='text-3xl font-bold'>Forms Dashboard</h1>
          </div>
          <div className='container mx-auto p-4'>
             <div className='mb-4 max-w-70 h-[39px] bg-gray-200 animate-pulse rounded-md'></div>

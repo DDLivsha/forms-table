@@ -4,18 +4,10 @@ import Link from 'next/link';
 import Select from '@/components/Select';
 import { deleteFormAction } from '@/lib/actions';
 import { useRouter } from 'next/navigation';
-
-interface Form {
-   id: string;
-   title: string;
-   description: string | null;
-   status: 'active' | 'draft' | 'archived';
-   updatedAt: string;
-   fieldsCount: number;
-}
+import { IForm } from '@/interfaces/form';
 
 interface FormsTableProps {
-   initialForms: Form[];
+   initialForms: IForm[];
    userRole: 'Admin' | 'Individual';
 }
 

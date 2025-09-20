@@ -67,3 +67,30 @@ export async function deleteFormAction(id: string) {
       return { error: 'An unexpected error occurred.' };
    }
 }
+
+export async function updateFormAction(formData: FormSchemaType) {
+   try {
+      const validatedData = formSchema.safeParse(formData);
+
+      if (!validatedData.success) {
+         return { errors: validatedData.error.flatten().fieldErrors };
+      }
+
+      const response = await fetch(`http://localhost:3000/api/forms/${formData.id}`, {
+         method: 'PUT',
+         headers: {
+            'Content-Type': 'application/json',
+         },
+         body: JSON.stringify(validatedData.data),
+      });
+
+      if (!response.ok) {
+         throw new Error('Failed to update form.');
+      }
+
+      return { message: 'Form updated successfully!' };
+   } catch (error) {
+      console.error('Error updating form:', error);
+      return { error: 'An unexpected error occurred.' };
+   }
+}
