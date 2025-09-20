@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Forms Dashboard
 
-## Getting Started
+## Description
+A web application for managing forms. The application allows administrators to create, view, edit, and delete forms. It also restricts access to specific actions based on the user's role, utilizing cookie-based authentication.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
+* **Create Forms (POST):** Allows administrators to create new forms with a title, description, and fields.
+* **View All Forms (GET):** Provides an overview of all created forms.
+* **View Form by ID (GET):** Enables users to view the details of a specific form.
+* **Update Forms (PUT):** Allows administrators to make changes to existing forms.
+* **Delete Forms (DELETE):** Allows administrators to remove forms.
+* **Role-Based Access Control:** Restricts editing and deleting functionality to users with the "Admin" role.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technologies Used
+* **Framework:** Next.js 15 App Router
+* **Language:** TypeScript
+* **Styling:** Tailwind CSS
+* **Frontend:** React
+* **Form Validation:** Zod
+* **Form Management:** React Hook Form
+* **Unique IDs:** `uuid`
+* **File System:** `fs/promises`
+* **Deployment:** Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Technical Details and Limitations
+The project uses **Server Actions** and **Route Handlers** for API communication. Following the requirement to not use a traditional database, a local `data/forms.json` file was used for data persistence.
 
-To learn more about Next.js, take a look at the following resources:
+**Important note on Vercel deployment:**
+* **GET requests (data reading)** work correctly, as they read from the file system, which is accessible in a read-only state.
+* **POST, PUT, and DELETE requests (data writing, updating, and deleting)** **do not work** after deployment to Vercel. This is due to a fundamental limitation of the platform, where the file system for serverless functions is **read-only**. Write operations using `fs.writeFile` are not possible in this environment, as indicated by the `EROFS: read-only file system` error in the logs.
+* The project is **fully functional in a local development environment**, where the file system is writable.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Link to the Vercel Deployment:**
+[https://forms-table.vercel.app/](https://forms-table.vercel.app/)
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Installation and Local Setup
+1.  Clone the repository:
+    `git clone https://github.com/DDLivsha/forms-table`
+2.  Navigate to the project directory:
+    `cd forms-table`
+3.  Install dependencies:
+    `npm install`
+4.  Start the development server:
+    `npm run dev`
+5.  Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Screenshots and Lighthouse Results
+* **Project Screenshot:** ![Project Screenshot](/public/screenshots/screenshot.jpg)
+* **Lighthouse Score:** ![Lighthouse Score](/public/screenshots/lighthouse.jpg)
