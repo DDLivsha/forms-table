@@ -49,3 +49,21 @@ export async function createFormAction(formData: FormSchemaType) {
       return { error: 'An unexpected error occurred.' };
    }
 }
+
+export async function deleteFormAction(id: string) {
+   try {
+      const response = await fetch(`http://localhost:3000/api/forms/${id}`, {
+         method: 'DELETE',
+      });
+
+      if (!response.ok) {
+         const errorData = await response.json();
+         return { error: errorData.error || 'Failed to delete form.' };
+      }
+
+      return { message: 'Form deleted successfully!' };
+   } catch (error) {
+      console.error('Error deleting form:', error);
+      return { error: 'An unexpected error occurred.' };
+   }
+}

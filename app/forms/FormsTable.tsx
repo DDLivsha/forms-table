@@ -1,7 +1,9 @@
 'use client';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useTransition } from 'react';
 import Link from 'next/link';
 import Select from '@/components/Select';
+import { deleteFormAction } from '@/lib/actions';
+import { useRouter } from 'next/navigation';
 
 interface Form {
    id: string;
@@ -18,14 +20,15 @@ interface FormsTableProps {
 }
 
 export default function FormsTable({ initialForms, userRole }: FormsTableProps) {
-   const [forms, setForms] = useState<Form[]>(initialForms);
+   const router = useRouter();
    const [statusFilter, setStatusFilter] = useState('');
    const [sortDirection, setSortDirection] = useState<'ascending' | 'descending' | 'none'>(
       'descending'
    );
+   const [isDeleting, startTransition] = useTransition();
 
    const sortedAndFilteredForms = useMemo(() => {
-      let filtered = forms.filter((form) => {
+      let filtered = initialForms.filter((form) => {
          const matchesStatus = statusFilter === '' || form.status === statusFilter;
          return matchesStatus;
       });
@@ -40,7 +43,7 @@ export default function FormsTable({ initialForms, userRole }: FormsTableProps) 
       });
 
       return filtered;
-   }, [forms, statusFilter, sortDirection]);
+   }, [initialForms, statusFilter, sortDirection]);
 
    const handleSort = () => {
       setSortDirection((prevDirection) =>
@@ -49,7 +52,20 @@ export default function FormsTable({ initialForms, userRole }: FormsTableProps) 
    };
 
    const handleDelete = async (id: string) => {
-      console.log(`Deleting form with id: ${id}`);
+      if (!window.confirm('Are you sure you want to delete this form?')) {
+         return;
+      }
+
+      startTransition(async () => {
+         const result = await deleteFormAction(id);
+
+         if (result?.error) {
+            alert(`Deletion failed: ${result.error}`);
+         } else if (result?.message) {
+            alert(result.message);
+            router.refresh();
+         }
+      });
    };
 
    return (
@@ -106,7 +122,9 @@ export default function FormsTable({ initialForms, userRole }: FormsTableProps) 
                   {sortedAndFilteredForms.map((form, key) => (
                      <tr
                         key={form.id}
-                        className={`bg-white ${key === sortedAndFilteredForms.length - 1 ? '' : 'border-b'}`}
+                        className={`bg-white ${
+                           key === sortedAndFilteredForms.length - 1 ? '' : 'border-b'
+                        }`}
                      >
                         <td className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap'>
                            {form.title}
@@ -135,6 +153,7 @@ export default function FormsTable({ initialForms, userRole }: FormsTableProps) 
                               <button
                                  onClick={() => handleDelete(form.id)}
                                  className='font-medium text-red-600 hover:underline'
+                                 disabled={isDeleting}
                               >
                                  Delete
                               </button>
