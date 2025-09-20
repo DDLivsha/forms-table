@@ -4,8 +4,8 @@ import path from 'path';
 
 const formsFilePath = path.join(process.cwd(), 'data/forms.json');
 
-export async function GET(request: NextRequest, ctx: any) {
-   const { id } = await ctx.params;
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+   const { id } = await params;
    try {
       const fileContent = await fs.readFile(formsFilePath, 'utf-8');
       const forms = JSON.parse(fileContent);
@@ -22,8 +22,8 @@ export async function GET(request: NextRequest, ctx: any) {
    }
 }
 
-export async function PUT(request: NextRequest, ctx: RouteContext<'/api/forms/[id]'>) {
-   const { id } = await ctx.params;
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+   const { id } = await params;
    try {
       const updatedForm = await request.json();
       const fileContent = await fs.readFile(formsFilePath, 'utf-8');
@@ -46,8 +46,11 @@ export async function PUT(request: NextRequest, ctx: RouteContext<'/api/forms/[i
    }
 }
 
-export async function DELETE(request: NextRequest, ctx: RouteContext<'/api/forms/[id]'>) {
-   const { id } = await ctx.params;
+export async function DELETE(
+   request: NextRequest,
+   { params }: { params: Promise<{ id: string }> }
+) {
+   const { id } = await params;
    try {
       const fileContent = await fs.readFile(formsFilePath, 'utf-8');
       const forms = JSON.parse(fileContent);
