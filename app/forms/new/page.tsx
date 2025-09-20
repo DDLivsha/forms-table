@@ -52,12 +52,14 @@ export default function NewFormPage() {
                   label='Title'
                   type='text'
                   error={errors.title}
+                  placeholder='Form Title'
                   {...register('title')}
                />
                <Input
                   label='Description (optional)'
                   type='text'
                   error={errors.description}
+                  placeholder='Form Description'
                   {...register('description')}
                />
                <Input

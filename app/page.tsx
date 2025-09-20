@@ -44,6 +44,7 @@ export default function HomePage() {
                   height={320}
                   className='w-full h-full object-cover'
                   placeholder='blur'
+                  blurDataURL='/hero-image.jpg'
                />
             </div>
 
