@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 
 const formsFilePath = path.join(process.cwd(), 'data/forms.json');
 
-export async function GET(request: Request, context: { params: { id: string } }) {
-   const { id } = context.params;
+export async function GET(request: NextRequest, ctx: RouteContext<'/api/forms/[id]'>) {
+   const { id } = await ctx.params;
    try {
       const fileContent = await fs.readFile(formsFilePath, 'utf-8');
       const forms = JSON.parse(fileContent);
@@ -22,15 +22,14 @@ export async function GET(request: Request, context: { params: { id: string } })
    }
 }
 
-export async function PUT(request: Request, context: { params: { id: string } }) {
-   const { id } = context.params;
+export async function PUT(request: NextRequest, ctx: RouteContext<'/api/forms/[id]'>) {
+   const { id } = await ctx.params;
    try {
       const updatedForm = await request.json();
       const fileContent = await fs.readFile(formsFilePath, 'utf-8');
       const forms = JSON.parse(fileContent);
 
       const formIndex = forms.findIndex((f: any) => f.id === id);
-
       if (formIndex === -1) {
          return NextResponse.json({ error: 'Form not found' }, { status: 404 });
       }
@@ -40,7 +39,6 @@ export async function PUT(request: Request, context: { params: { id: string } })
       );
 
       await fs.writeFile(formsFilePath, JSON.stringify(newForms, null, 2));
-
       return NextResponse.json({ message: 'Form updated successfully' }, { status: 200 });
    } catch (error) {
       console.error('Failed to update form:', error);
@@ -48,8 +46,8 @@ export async function PUT(request: Request, context: { params: { id: string } })
    }
 }
 
-export async function DELETE(request: Request, context: { params: { id: string } }) {
-   const { id } = context.params;
+export async function DELETE(request: NextRequest, ctx: RouteContext<'/api/forms/[id]'>) {
+   const { id } = await ctx.params;
    try {
       const fileContent = await fs.readFile(formsFilePath, 'utf-8');
       const forms = JSON.parse(fileContent);
@@ -62,7 +60,6 @@ export async function DELETE(request: Request, context: { params: { id: string }
       }
 
       await fs.writeFile(formsFilePath, JSON.stringify(filteredForms, null, 2));
-
       return NextResponse.json({ message: 'Form deleted successfully' }, { status: 200 });
    } catch (error) {
       console.error('Failed to delete form:', error);

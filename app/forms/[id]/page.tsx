@@ -13,7 +13,7 @@ async function getForm(id: string): Promise<IForm> {
 }
 
 export default async function EditFormPage({ params }: { params: { id: string } }) {
-   const { id } = params;
+   const { id } = await params;
    const form = await getForm(id);
    const cookiesStore = await cookies();
 
