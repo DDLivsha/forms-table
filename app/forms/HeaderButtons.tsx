@@ -1,32 +1,24 @@
 'use client';
-import React from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useTransition } from 'react';
 import Button from '@/components/Button';
+import { signOutAction } from '@/lib/actions';
 
 export default function HeaderButtons({ userRole }: { userRole: 'Admin' | 'Individual' }) {
-   const router = useRouter();
+   const [isPending, startTransition] = useTransition();
 
-   const handleLogout = async () => {
-      // Ми ще не створювали цю логіку, але вона буде виглядати так:
-      // document.cookie = 'role=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      // router.push('/login');
+   const handleLogout = () => {
+      startTransition(() => signOutAction());
    };
 
    return (
-         <div className='flex items-center space-x-4'>
-            {userRole === 'Admin' && (
-               <Button
-                  href='/forms/new'
-               >
-                  Create New Form
-               </Button>
-            )}
-            <Button
-               onClick={handleLogout}
-               className='px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700'
-            >
-               Logout
-            </Button>
-         </div>
+      <div className='flex items-center space-x-4'>
+         {userRole === 'Admin' && <Button href='/forms/new'>Create New Form</Button>}
+         <Button
+            onClick={handleLogout}
+            className='px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700'
+         >
+            {isPending ? 'Logging out...' : 'Logout'}
+         </Button>
+      </div>
    );
 }
