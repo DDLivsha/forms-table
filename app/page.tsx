@@ -12,14 +12,14 @@ export const metadata = {
       description: 'A convenient tool for creating and controlling forms.',
       url: 'https://forms-table.vercel.app',
       siteName: 'Forms Dashboard',
-      // images: [
-      //    {
-      //       url: 'https://forms-table.vercel.app/og-image.png',
-      //       width: 1200,
-      //       height: 630,
-      //       alt: 'Forms Dashboard Hero Image',
-      //    },
-      // ],
+      images: [
+         {
+            url: 'https://forms-table.vercel.app/og-image.png',
+            width: 1200,
+            height: 630,
+            alt: 'Forms Dashboard Hero Image',
+         },
+      ],
    },
    locale: 'en_US',
    type: 'website',
@@ -27,7 +27,7 @@ export const metadata = {
       card: 'summary_large_image',
       title: 'Forms Dashboard',
       description: 'A convenient tool for creating and controlling forms.',
-      // images: ['https://forms-table.vercel.app/og-image.png'],
+      images: ['https://forms-table.vercel.app/og-image.png'],
    },
 };
 
