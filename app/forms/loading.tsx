@@ -45,16 +45,9 @@ export default function loading() {
                         >
                            Updated At
                         </th>
-                        <th
-                           scope='col'
-                           className='px-6 py-3'
-                        >
-                           Actions
-                        </th>
                      </tr>
                   </thead>
                   <tbody>
-                     <SkeletonRow />
                      <SkeletonRow />
                      <SkeletonRow />
                      <SkeletonRow />

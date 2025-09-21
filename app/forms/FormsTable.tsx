@@ -64,7 +64,7 @@ export default function FormsTable({ initialForms, userRole }: FormsTableProps) 
    };
 
    return (
-      <div className='container mx-auto p-4'>
+      <main className='container mx-auto p-4'>
          <div className='mb-4 max-w-70'>
             <Select
                options={['active', 'draft', 'archived']}
@@ -98,12 +98,6 @@ export default function FormsTable({ initialForms, userRole }: FormsTableProps) 
                         Updated At
                         {sortDirection === 'ascending' ? ' ▲' : ' ▼'}
                      </th>
-                     {/* <th
-                        scope='col'
-                        className='px-6 py-3'
-                     >
-                        Fields Count
-                     </th> */}
                      {userRole === 'Admin' && (
                         <th
                            scope='col'
@@ -137,7 +131,6 @@ export default function FormsTable({ initialForms, userRole }: FormsTableProps) 
                            </span>
                         </td>
                         <td className='px-6 py-4'>{new Date(form.updatedAt).toLocaleString()}</td>
-                        {/* <td className='px-6 py-4'>{form.fieldsCount}</td> */}
                         {userRole === 'Admin' && (
                            <td className='px-6 py-4 flex space-x-2'>
                               <Link
@@ -160,6 +153,6 @@ export default function FormsTable({ initialForms, userRole }: FormsTableProps) 
                </tbody>
             </table>
          </div>
-      </div>
+      </main>
    );
 }

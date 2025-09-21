@@ -1,5 +1,5 @@
 'use client';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState, useId } from 'react';
 import { FieldError } from 'react-hook-form';
 
 interface SelectProps {
@@ -30,6 +30,7 @@ const Select: FC<SelectProps> = ({
    const [isOpen, setIsOpen] = useState(false);
    const [isDropUp, setIsDropUp] = useState(false);
    const selectRef = useRef<HTMLDivElement>(null);
+   const listboxId = useId();
 
    const errorMessage = typeof error === 'string' ? error : error?.message || errorText || '';
 
@@ -61,13 +62,24 @@ const Select: FC<SelectProps> = ({
          ref={selectRef}
          className={`relative w-full ${className}`}
          style={maxWidth ? { maxWidth: `${maxWidth}px` } : {}}
+         role='combobox'
+         aria-expanded={isOpen}
+         aria-owns={listboxId}
       >
-         <label className='mb-1 block text-[13px] font-normal cursor-pointer'>{label}</label>
+         <label
+            className='mb-1 block text-[13px] font-normal cursor-pointer'
+            id={`select-label-${listboxId}`}
+         >
+            {label}
+         </label>
          <div
             className={`flex items-center justify-between rounded-md border px-3.5 py-1.5 bg-white text-[16px] leading-[160%] cursor-pointer ${
                disabled ? 'bg-gray-100 cursor-not-allowed text-gray-400' : 'hover:border-indigo-600'
             } ${error ? 'border-red-500' : 'border-gray-200'}`}
             onClick={toggleDropdown}
+            aria-haspopup='listbox'
+            aria-expanded={isOpen}
+            aria-labelledby={`select-label-${listboxId}`}
          >
             {value ? <span>{value}</span> : <span className='text-gray-400'>{placeholder}</span>}
             <span className={`transition-transform ${isOpen ? 'rotate-180' : 'rotate-0'}`}>
@@ -91,6 +103,8 @@ const Select: FC<SelectProps> = ({
                className={`absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border bg-white shadow-lg ${
                   isDropUp ? 'bottom-full mb-1' : 'top-full'
                }`}
+               role='listbox'
+               aria-labelledby={`select-label-${listboxId}`}
             >
                <div
                   onClick={() => {
@@ -100,6 +114,8 @@ const Select: FC<SelectProps> = ({
                   className={`px-3.5 py-2 cursor-pointer hover:bg-indigo-50 ${
                      value === '' ? 'bg-indigo-100 text-indigo-600' : ''
                   }`}
+                  role='option'
+                  aria-selected={value === ''}
                >
                   {placeholder}
                </div>
@@ -114,6 +130,8 @@ const Select: FC<SelectProps> = ({
                         className={`px-3.5 py-2 cursor-pointer hover:bg-indigo-50 ${
                            value === item ? 'bg-indigo-100 text-indigo-600' : ''
                         }`}
+                        role='option'
+                        aria-selected={value === item}
                      >
                         {item}
                      </div>
